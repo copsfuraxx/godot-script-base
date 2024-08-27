@@ -1,0 +1,135 @@
+[gd_scene load_steps=3 format=3 uid="uid://ce7ic8idepdef"]
+
+[ext_resource type="PackedScene" uid="uid://cmty10gu8bepm" path="res://ui/settings_container.tscn" id="1_pfcev"]
+
+[sub_resource type="GDScript" id="GDScript_ant0u"]
+script/source = "extends Control
+
+
+var is_paused := false
+var was_paused : bool
+
+
+@onready
+var win_screen : Control = $WinScreen
+@onready
+var pause_screen : Control = $PauseScreen
+@onready
+var parameters : Control = $PauseScreen/Parameters
+@onready
+var menu : Control = $PauseScreen/Menu
+
+
+func _ready() -> void:
+	#BusSignal.player_won.connect(on_player_won)
+	#BusSignal.game_paused.connect(on_game_paused)
+	pass
+
+
+func on_player_won() -> void:
+	win_screen.visible = true
+
+
+func on_game_paused() -> void:
+	if not is_paused:
+		was_paused = get_tree().paused
+		is_paused = true
+		get_tree().paused = true
+	else:
+		_on_return_pressed()
+		is_paused = false
+		get_tree().paused = was_paused
+	pause_screen.visible = is_paused
+
+
+func _on_play_pressed() -> void:
+	on_game_paused()
+
+
+func _on_retry_pressed() -> void:
+	get_tree().paused = false
+	get_tree().reload_current_scene()
+
+
+func _on_parameters_button_pressed() -> void:
+	menu.visible = false
+	parameters.visible = true
+
+
+func _on_menu_pressed() -> void:
+	get_tree().paused = false
+	#get_tree().change_scene_to_file(\"res://scenes/menu.tscn\")
+
+
+func _on_return_pressed() -> void:
+	parameters.visible = false
+	menu.visible = true
+"
+
+[node name="GUI" type="Control"]
+process_mode = 3
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = SubResource("GDScript_ant0u")
+
+[node name="WinScreen" type="PanelContainer" parent="."]
+visible = false
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="CenterContainer" type="CenterContainer" parent="WinScreen"]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="WinScreen/CenterContainer"]
+layout_mode = 2
+text = "WIN_TEXT"
+
+[node name="PauseScreen" type="PanelContainer" parent="."]
+visible = false
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="Menu" type="CenterContainer" parent="PauseScreen"]
+layout_mode = 2
+
+[node name="VBoxContainer" type="VBoxContainer" parent="PauseScreen/Menu"]
+layout_mode = 2
+theme_override_constants/separation = 20
+alignment = 1
+
+[node name="Play" type="Button" parent="PauseScreen/Menu/VBoxContainer"]
+layout_mode = 2
+text = "PLAY"
+
+[node name="Retry" type="Button" parent="PauseScreen/Menu/VBoxContainer"]
+layout_mode = 2
+text = "RETRY"
+
+[node name="ParametersButton" type="Button" parent="PauseScreen/Menu/VBoxContainer"]
+layout_mode = 2
+text = "PARAM"
+
+[node name="Menu" type="Button" parent="PauseScreen/Menu/VBoxContainer"]
+layout_mode = 2
+text = "MENU_RETURN"
+
+[node name="Parameters" parent="PauseScreen" instance=ExtResource("1_pfcev")]
+layout_mode = 2
+
+[connection signal="pressed" from="PauseScreen/Menu/VBoxContainer/Play" to="." method="_on_play_pressed"]
+[connection signal="pressed" from="PauseScreen/Menu/VBoxContainer/Retry" to="." method="_on_retry_pressed"]
+[connection signal="pressed" from="PauseScreen/Menu/VBoxContainer/ParametersButton" to="." method="_on_parameters_button_pressed"]
+[connection signal="pressed" from="PauseScreen/Menu/VBoxContainer/Menu" to="." method="_on_menu_pressed"]
+[connection signal="return_clicked" from="PauseScreen/Parameters" to="." method="_on_return_pressed"]
