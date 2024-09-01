@@ -10,6 +10,9 @@ const JUMP_VELOCITY = -300.0
 var _state : State
 
 
+var states : Dictionary
+
+
 @onready
 var animation : AnimatedSprite2D = $AnimatedSprite2D
 @onready
@@ -17,14 +20,16 @@ var shape : CollisionShape2D = $CollisionShape2D
 
 
 func _ready() -> void:
+	states = Dictionary()
 	for child in $States.get_children():
+		states[child.name] = child
 		child.player = self
 	_state._enter_state()
 
 
 func change_state(new_state : String) -> void:
 	_state._exit_state()
-	_state = get_node("States/" + new_state)
+	_state = states[new_state]
 	_state._enter_state()
 
 
