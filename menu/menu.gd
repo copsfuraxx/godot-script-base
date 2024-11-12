@@ -1,10 +1,9 @@
 extends Control
 
-
 @onready
 var menu: Control = $Menu
 @onready
-var parameters: Control = $Parameters
+var parameters: Control = $SettingsContainer
 @onready
 var credits: Control = $Credits
 
@@ -12,8 +11,7 @@ var credits: Control = $Credits
 func  _ready() -> void:
 	#const Music := prelaod("")
 	#MusicHandler.play_music(Music)
-	$Credits/PanelContainer/MarginContainer/VBoxContainer/RichTextLabel.custom_minimum_size.x =\
-		get_viewport_rect().size.x / 4.0 * 3.0
+	%RichTextLabel.custom_minimum_size.x = get_viewport_rect().size.x / 4.0 * 3.0
 
 
 func _on_play_button_pressed() -> void:

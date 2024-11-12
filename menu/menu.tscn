@@ -1,7 +1,7 @@
 [gd_scene load_steps=3 format=3 uid="uid://blj8nhwuc8fp8"]
 
 [ext_resource type="Script" path="res://menu/menu.gd" id="1_ovw0j"]
-[ext_resource type="PackedScene" uid="uid://cmty10gu8bepm" path="res://menu/parameters.tscn" id="1_tc25c"]
+[ext_resource type="PackedScene" uid="uid://cmty10gu8bepm" path="res://menu/settings_container.tscn" id="1_tc25c"]
 
 [node name="Menu" type="Control"]
 layout_mode = 3
@@ -46,9 +46,9 @@ text = "PARAM"
 layout_mode = 2
 text = "CREDITS"
 
-[node name="Parameters" parent="." instance=ExtResource("1_tc25c")]
-layout_mode = 0
-anchors_preset = 0
+[node name="SettingsContainer" parent="." instance=ExtResource("1_tc25c")]
+visible = false
+layout_mode = 1
 
 [node name="Credits" type="CenterContainer" parent="."]
 visible = false
@@ -74,16 +74,11 @@ layout_mode = 2
 theme_override_constants/separation = 30
 
 [node name="RichTextLabel" type="RichTextLabel" parent="Credits/PanelContainer/MarginContainer/VBoxContainer"]
+unique_name_in_owner = true
 auto_translate_mode = 2
 layout_mode = 2
 bbcode_enabled = true
-text = "[center][url=https://ansimuz.itch.io/mountain-dusk-parallax-background]Mountain Dusk Parallax background[/url] by ansimuz[/center]
-[center][url=https://megacrash.itch.io/keyboard-pixel-art]Keyboard - Pixel Art[/url] by MegaCrash[/center]
-[center][url=https://its-lerm.itch.io/16-bit-gem-set]16 bit Gem set[/url] by Its_Lerm[/center]
-[center][url=https://flippurgatory.itch.io/animated-potion-assets-pack-free]Animated Potion Assets Pack - FREE[/url] by Flip[/center]
-[center][url=https://anokolisa.itch.io/sidescroller-pixelart-sprites-asset-pack-forest-16x16]Free - Pixel Art Asset Pack - Sidescroller Fantasy - 16x16 Forest Sprites[/url] by Anokolisa[/center]
-[center][url=https://datagoblin.itch.io/monogram]monogram[/url] by datagoblin[/center]
-[center][url=https://ovanisound.com/products/fantasy-music-pack-vol-4]Fantasy Music Pack Vol. 4[/url] by Ovani Sound[/center]"
+text = "[center][url=https://lien]Nom[/url] Créateur[/center]"
 fit_content = true
 
 [node name="Return" type="Button" parent="Credits/PanelContainer/MarginContainer/VBoxContainer"]
@@ -94,6 +89,6 @@ text = "MENU_RETURN"
 [connection signal="pressed" from="Menu/VBoxContainer/PlayButton" to="." method="_on_play_button_pressed"]
 [connection signal="pressed" from="Menu/VBoxContainer/ParametersButton" to="." method="_on_parameters_button_pressed"]
 [connection signal="pressed" from="Menu/VBoxContainer/CreditsButton" to="." method="_on_credits_button_pressed"]
-[connection signal="return_clicked" from="Parameters" to="." method="_on_return_pressed"]
+[connection signal="return_clicked" from="SettingsContainer" to="." method="_on_return_pressed"]
 [connection signal="meta_clicked" from="Credits/PanelContainer/MarginContainer/VBoxContainer/RichTextLabel" to="." method="_on_rich_text_label_meta_clicked"]
 [connection signal="pressed" from="Credits/PanelContainer/MarginContainer/VBoxContainer/Return" to="." method="_on_return_pressed"]
