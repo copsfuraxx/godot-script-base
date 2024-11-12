@@ -47,20 +47,22 @@ func _on_settings_container_exit() -> void:
 	resume_button.grab_focus()
 
 # Take an existing tween and add steps to fade the screen in.
-func fade_in(tween_in: Tween):
+func fade_in(tween_in: Tween) -> void:
 	tween_in.tween_property(color_rect_fader, "color:a", 0.0, 0.5)
-	tween_in.tween_callback(func(): color_rect_fader.visible = false)
+	await tween_in.finished
+	color_rect_fader.visible = false
 
 # Take an existing tween and add steps to fade the screen out.
-func fade_out(tween_in: Tween):
+func fade_out(tween_in: Tween) -> void:
 	color_rect_fader.visible = true
 	tween_in.tween_property(color_rect_fader, "color:a", 1.0, 0.25).from(0.0)
 
 # Fade the screen out, change level and fade back in.
-func change_scene(next_scene: String) -> void:
-	var tween = create_tween()
+func change_scene(next_scene: PackedScene) -> void:
+	var tween := create_tween()
 	fade_out(tween)
-	tween.tween_callback(func(): get_tree().change_scene_to_file(next_scene))
-	# Wait at least one frame for the scene to update and ready.
-	tween.tween_interval(0.1)
+	await tween.finished
+	get_tree().change_scene_to_packed(next_scene)
+	await get_tree().process_frame
+	tween = create_tween()
 	fade_in(tween)

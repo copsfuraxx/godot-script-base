@@ -42,5 +42,8 @@ func set_music_volume(volume: float) -> void:
 ## Sets the [param mute] status and saves it in the configuration.
 func set_mute(value: bool) -> void:
 	is_music_mute = value
-	stream_paused = value
+	if value:
+		stop()
+	else:
+		play()
 	ConfigHandler.set_sound_value(MUTE, value)
