@@ -1,4 +1,4 @@
-[gd_scene load_steps=6 format=3 uid="uid://c0kec2l2m2jle"]
+[gd_scene load_steps=8 format=3 uid="uid://c0kec2l2m2jle"]
 
 [ext_resource type="Script" uid="uid://d3vpjmk7ui07" path="res://player/player.gd" id="1_oul6g"]
 [ext_resource type="Script" uid="uid://bx4a12q4mfeuj" path="res://player/idle_state.gd" id="2_yw30f"]
@@ -6,13 +6,20 @@
 [ext_resource type="Script" uid="uid://bc65wj0s0r2xf" path="res://player/fall_state.gd" id="4_g6k8r"]
 [ext_resource type="Script" uid="uid://cqn6d7encr7pb" path="res://player/jump_state.gd" id="5_qjkh3"]
 
-[node name="Player" type="CharacterBody2D" node_paths=PackedStringArray("_state")]
+[sub_resource type="SpriteFrames" id="SpriteFrames_qjkh3"]
+
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_g6k8r"]
+radius = 11.0
+height = 42.0
+
+[node name="Player" type="CharacterBody2D"]
 script = ExtResource("1_oul6g")
-_state = NodePath("States/IdleState")
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
+sprite_frames = SubResource("SpriteFrames_qjkh3")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource("CapsuleShape2D_g6k8r")
 
 [node name="States" type="Node" parent="."]
 
@@ -28,4 +35,10 @@ script = ExtResource("4_g6k8r")
 [node name="JumpState" type="Node" parent="States"]
 script = ExtResource("5_qjkh3")
 
-[node name="Timer" type="Timer" parent="States/JumpState"]
+[node name="JumpTimer" type="Timer" parent="States/JumpState"]
+wait_time = 0.5
+one_shot = true
+
+[node name="JumpSFX" type="AudioStreamPlayer2D" parent="States/JumpState"]
+
+[connection signal="timeout" from="States/JumpState/JumpTimer" to="States/JumpState" method="_on_max_jump_timeout"]

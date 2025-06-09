@@ -5,7 +5,7 @@ func _physics_process(_delta: float) -> void:
 	if not player.is_on_floor():
 		player.change_state("FallState")
 		return
-	player.velocity.x = move_toward(player.velocity.x, 0, player.SPEED)
+	player.velocity.x = move_toward(player.velocity.x, 0, player.speed)
 	player.move_and_slide()
 
 

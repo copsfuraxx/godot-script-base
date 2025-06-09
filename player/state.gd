@@ -17,5 +17,5 @@ func _exit_state() -> void:
 	pass
 
 
-func _can_enter_state(state: String) -> bool:
+func _can_enter_state(_state: String) -> bool:
 	return true

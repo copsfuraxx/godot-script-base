@@ -12,7 +12,7 @@ func _physics_process(_delta: float) -> void:
 		return
 	var direction := Input.get_axis("move_left", "move_right")
 	if direction:
-		player.velocity.x = direction * player.SPEED
+		player.velocity.x = direction * player.speed
 		player.animation.flip_h = direction < 0
 		player.move_and_slide()
 	else:
