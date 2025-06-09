@@ -17,7 +17,6 @@ var is_music_mute := false
 ## Initializes settings and connections.
 func _ready() -> void:
 	process_mode = PROCESS_MODE_ALWAYS
-	finished.connect(play)
 	if ConfigHandler.has_sound_key(VOLUME):
 		volume_db = ConfigHandler.get_sound_value(VOLUME)
 	else:

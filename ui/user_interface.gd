@@ -16,12 +16,8 @@ var paused := false:
 @onready var color_rect_fader: ColorRect = $ColorRectFader
 
 
-func _ready() -> void:
-	fade_in(create_tween())
-
-
 func _unhandled_key_input(event: InputEvent) -> void:
-	if paused and event.is_action_released("ui_cancel"):
+	if paused and event.is_action_pressed("ui_cancel"):
 		get_viewport().set_input_as_handled()
 		paused = false
 
@@ -33,7 +29,7 @@ func _on_resume_button_pressed() -> void:
 func _on_settings_button_pressed() -> void:
 	pause_container.visible = false
 	settings_container.visible = true
-	settings_container.focus()
+	settings_container.give_focus()
 
 
 func _on_quit_button_pressed() -> void:
@@ -46,22 +42,24 @@ func _on_settings_container_exit() -> void:
 	resume_button.grab_focus()
 
 # Take an existing tween and add steps to fade the screen in.
-func fade_in(tween_in: Tween) -> void:
-	tween_in.tween_property(color_rect_fader, "color:a", 0.0, 0.5)
-	await tween_in.finished
+func fade_in() -> void:
+	var tween := create_tween()
+	tween.tween_property(color_rect_fader, "color:a", 0.0, 1.0)
+	await tween.finished
 	color_rect_fader.visible = false
 
 # Take an existing tween and add steps to fade the screen out.
-func fade_out(tween_in: Tween) -> void:
+func fade_out() -> void:
+	var tween := create_tween()
 	color_rect_fader.visible = true
-	tween_in.tween_property(color_rect_fader, "color:a", 1.0, 0.25).from(0.0)
+	tween.tween_property(color_rect_fader, "color:a", 1.0, 0.25).from(0.0)
+	await tween.finished
 
 # Fade the screen out, change level and fade back in.
 func change_scene(next_scene: PackedScene) -> void:
-	var tween := create_tween()
-	fade_out(tween)
-	await tween.finished
+	get_tree().paused = true
+	await fade_out()
 	get_tree().change_scene_to_packed(next_scene)
 	await get_tree().process_frame
-	tween = create_tween()
-	fade_in(tween)
+	await fade_in()
+	get_tree().paused = false

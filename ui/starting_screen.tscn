@@ -1,7 +1,8 @@
-[gd_scene load_steps=3 format=3 uid="uid://d1ds1k6shv73o"]
+[gd_scene load_steps=4 format=3 uid="uid://d1ds1k6shv73o"]
 
-[ext_resource type="Texture2D" uid="uid://fk11tjyuhrdg" path="res://ui/starting_screen.png" id="1_p3v7v"]
+[ext_resource type="Texture2D" uid="uid://dqrgmbs6i7blr" path="res://ui/starting_screen.png" id="1_p3v7v"]
 [ext_resource type="Script" uid="uid://jk68qt76i3vu" path="res://ui/starting_screen.gd" id="2_hmr4t"]
+[ext_resource type="PackedScene" uid="uid://blj8nhwuc8fp8" path="res://ui/menu.tscn" id="3_ju8tn"]
 
 [node name="StartingScreen" type="TextureRect"]
 anchors_preset = 15
@@ -9,9 +10,11 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
+mouse_filter = 0
 texture = ExtResource("1_p3v7v")
 expand_mode = 3
 script = ExtResource("2_hmr4t")
+next_sceen = ExtResource("3_ju8tn")
 
 [node name="Timer" type="Timer" parent="."]
 wait_time = 2.0

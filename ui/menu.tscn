@@ -1,8 +1,7 @@
-[gd_scene load_steps=4 format=3 uid="uid://blj8nhwuc8fp8"]
+[gd_scene load_steps=3 format=3 uid="uid://blj8nhwuc8fp8"]
 
 [ext_resource type="Script" uid="uid://3w4ftmttnak0" path="res://ui/menu.gd" id="1_ovw0j"]
 [ext_resource type="PackedScene" uid="uid://cmty10gu8bepm" path="res://ui/settings_container.tscn" id="1_tc25c"]
-[ext_resource type="PackedScene" uid="uid://2ebr86phk1kr" path="res://Test.tscn" id="2_em05n"]
 
 [node name="Menu" type="Control"]
 layout_mode = 3
@@ -12,17 +11,15 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 script = ExtResource("1_ovw0j")
-game_scene = ExtResource("2_em05n")
 
-[node name="TextureRect" type="TextureRect" parent="."]
+[node name="TextureRect2" type="TextureRect" parent="."]
 layout_mode = 1
-anchors_preset = 15
+anchors_preset = -1
 anchor_right = 1.0
-anchor_bottom = 1.0
+anchor_bottom = 0.207
+offset_bottom = -0.136017
 grow_horizontal = 2
-grow_vertical = 2
-expand_mode = 5
-stretch_mode = 6
+stretch_mode = 3
 
 [node name="Menu" type="CenterContainer" parent="."]
 layout_mode = 1
@@ -55,9 +52,11 @@ layout_mode = 1
 [node name="Credits" type="CenterContainer" parent="."]
 visible = false
 layout_mode = 1
-anchors_preset = 15
+anchors_preset = -1
+anchor_top = 0.207
 anchor_right = 1.0
 anchor_bottom = 1.0
+offset_top = -0.136002
 grow_horizontal = 2
 grow_vertical = 2
 
@@ -75,13 +74,16 @@ theme_override_constants/margin_bottom = 10
 layout_mode = 2
 theme_override_constants/separation = 30
 
-[node name="RichTextLabel" type="RichTextLabel" parent="Credits/PanelContainer/MarginContainer/VBoxContainer"]
+[node name="Credits" type="RichTextLabel" parent="Credits/PanelContainer/MarginContainer/VBoxContainer"]
 unique_name_in_owner = true
 auto_translate_mode = 2
+texture_filter = 1
+custom_minimum_size = Vector2(1046, 325)
 layout_mode = 2
 bbcode_enabled = true
-text = "[center][url=https://lien]Nom[/url] Créateur[/center]"
-fit_content = true
+autowrap_mode = 2
+meta_underlined = false
+hint_underlined = false
 
 [node name="Return" type="Button" parent="Credits/PanelContainer/MarginContainer/VBoxContainer"]
 layout_mode = 2
@@ -91,5 +93,6 @@ text = "MENU_RETURN"
 [connection signal="pressed" from="Menu/VBoxContainer/PlayButton" to="." method="_on_play_button_pressed"]
 [connection signal="pressed" from="Menu/VBoxContainer/ParametersButton" to="." method="_on_parameters_button_pressed"]
 [connection signal="pressed" from="Menu/VBoxContainer/CreditsButton" to="." method="_on_credits_button_pressed"]
-[connection signal="meta_clicked" from="Credits/PanelContainer/MarginContainer/VBoxContainer/RichTextLabel" to="." method="_on_rich_text_label_meta_clicked"]
+[connection signal="return_clicked" from="SettingsContainer" to="." method="_on_return_pressed"]
+[connection signal="meta_clicked" from="Credits/PanelContainer/MarginContainer/VBoxContainer/Credits" to="." method="_on_rich_text_label_meta_clicked"]
 [connection signal="pressed" from="Credits/PanelContainer/MarginContainer/VBoxContainer/Return" to="." method="_on_return_pressed"]

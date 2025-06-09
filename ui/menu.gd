@@ -1,5 +1,10 @@
 extends Control
 
+@export
+var game_scene: PackedScene
+@export
+var music_menu: AudioStream
+
 @onready
 var menu: Control = $Menu
 @onready
@@ -8,19 +13,12 @@ var parameters: Control = $SettingsContainer
 var credits: Control = $Credits
 
 
-@export
-var game_scene: PackedScene
-@export
-var music_menu: AudioStream
-
-
 func  _ready() -> void:
 	MusicHandler.play_music(music_menu)
-	%RichTextLabel.custom_minimum_size.x = get_viewport_rect().size.x / 4.0 * 3.0
 
 
 func _on_play_button_pressed() -> void:
-	get_tree().change_scene_to_packed(game_scene)
+	UserInterface.change_scene(game_scene)
 
 
 func _on_parameters_button_pressed() -> void:

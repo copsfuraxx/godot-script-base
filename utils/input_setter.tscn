@@ -1,0 +1,38 @@
+[gd_scene load_steps=2 format=3 uid="uid://dmodiwrkihfof"]
+
+[ext_resource type="Script" uid="uid://d0w1dxw6kbkw5" path="res://utils/input_setter.gd" id="1_jnqlg"]
+
+[node name="InputSetter" type="PanelContainer"]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_jnqlg")
+actions = Array[String](["move_left", "move_right", "jump"])
+
+[node name="ValidateContainer" type="VBoxContainer" parent="."]
+unique_name_in_owner = true
+layout_mode = 2
+alignment = 1
+
+[node name="ValidateLabel" type="Label" parent="ValidateContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="HBoxContainer" type="HBoxContainer" parent="ValidateContainer"]
+layout_mode = 2
+alignment = 1
+
+[node name="Validate" type="Button" parent="ValidateContainer/HBoxContainer"]
+layout_mode = 2
+text = "VALIDATE"
+
+[node name="Cancel" type="Button" parent="ValidateContainer/HBoxContainer"]
+layout_mode = 2
+text = "CANCEL"
+
+[connection signal="pressed" from="ValidateContainer/HBoxContainer/Validate" to="." method="emit_signal" binds= ["done"]]
+[connection signal="pressed" from="ValidateContainer/HBoxContainer/Cancel" to="." method="_reset"]

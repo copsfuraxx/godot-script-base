@@ -10,6 +10,5 @@ func _gui_input(event: InputEvent) -> void:
 
 
 func _go_next_screen() -> void:
-	mouse_filter = MOUSE_FILTER_IGNORE
-	$Timer.stop()
+	process_mode = PROCESS_MODE_DISABLED
 	UserInterface.change_scene(next_sceen)
